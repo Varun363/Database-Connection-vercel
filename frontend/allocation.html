@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Room Allocation — ResortOS{% endblock %}{% block body %}
+<div class="app-shell">
+    {% include "sidebar.html" %}
+    <main class="main">
+        <div class="topbar">
+            <div><p class="eyebrow">FRONT DESK</p>
+                <h1>Room Allocation</h1>
+            </div>
+        </div>
+        <div class="panel table-panel">
+            <div class="panel-head">
+                <h3>Confirmed guest arrivals</h3>
+                <span class="muted">Allocate a room to each booking</span>
+            </div>
+            <div class="table-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Guest</th>
+                            <th>Room Type</th>
+                            <th>Dates</th>
+                            <th>Current Room</th>
+                            <th>Allocate</th>
+                        </tr>
+                    </thead>
+                    <tbody id="allocationBody">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}{% block scripts %}
+<script>loadAllocation();
+
+</script>
+{% endblock %}

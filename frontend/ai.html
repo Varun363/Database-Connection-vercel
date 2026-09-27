@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}AI Intelligence — ResortOS{% endblock %}
+{% block body %}
+<div class="app-shell">
+{% include "sidebar.html" %}
+<main class="main ai-page">
+  <div class="topbar">
+    <button class="mobile-menu" onclick="toggleSidebar()">☰</button>
+    <div><p class="eyebrow">GENERATIVE AI</p><h1>ResortOS AI Intelligence</h1></div>
+    <div class="top-actions"><div class="user-mini"><div class="avatar">{{current_user.name[:1]}}</div><span>{{current_user.name}}</span><small>{{current_user.role|title}}</small></div></div>
+  </div>
+
+  <section class="ai-hero scroll-pop show">
+    <div><span class="ai-orb">✦</span><div class="eyebrow">INTELLIGENT RESORT LAYER</div><h2>Ask, analyze, triage and act.</h2><p>GenAI features are connected to your ResortOS data. With an OpenAI API key, the assistant uses a live language model; without one, the demo still works with local smart fallbacks.</p></div>
+    <div class="ai-status"><span></span> AI Engine Ready</div>
+  </section>
+
+  <div class="ai-grid">
+    <section class="ai-card ai-chat-card scroll-pop show">
+      <div class="ai-card-head"><div><p class="eyebrow">AI CONCIERGE</p><h3>Guest & Staff Copilot</h3></div><span class="ai-badge">GENAI</span></div>
+      <div id="aiMessages" class="ai-messages"><div class="ai-msg bot"><b>ResortOS AI</b><span>Hi! Ask me about rooms, housekeeping, dining, activities or resort support.</span></div></div>
+      <div class="ai-suggestions"><button onclick="aiAsk('How can I request extra towels?')">Extra towels</button><button onclick="aiAsk('What can I do at the resort?')">Activities</button><button onclick="aiAsk('I need maintenance help')">Maintenance</button></div>
+      <form class="ai-input" onsubmit="sendAIChat(event)"><input id="aiInput" placeholder="Ask ResortOS AI..." autocomplete="off"><button class="btn primary">Send</button></form>
+    </section>
+
+    {% if current_user.role in ['owner','manager','admin'] %}
+    <section class="ai-card scroll-pop show">
+      <div class="ai-card-head"><div><p class="eyebrow">OPS COPILOT</p><h3>Live Intelligence</h3></div><button class="btn small ghost" onclick="loadAIInsight()">Refresh</button></div>
+      <div id="aiInsight" class="ai-output">Loading live operations insight...</div>
+      <div class="ai-mini-grid"><div><span>Open issues</span><b id="aiIssues">—</b></div><div><span>Pending work</span><b id="aiTasks">—</b></div><div><span>Low stock</span><b id="aiStock">—</b></div></div>
+    </section>
+    {% endif %}
+
+    <section class="ai-card scroll-pop show">
+      <div class="ai-card-head"><div><p class="eyebrow">SMART TRIAGE</p><h3>Issue Intelligence</h3></div><span class="ai-badge purple">AUTO ROUTE</span></div>
+      <form class="triage-form" onsubmit="triageIssue(event)"><input id="triageTitle" required placeholder="Issue title"><textarea id="triageDescription" required rows="3" placeholder="Describe the issue..." ></textarea><div class="triage-row"><input id="triageRoom" placeholder="Room e.g. 302"><input id="triageCategory" placeholder="Category e.g. HVAC"></div><button class="btn primary full">Analyze & Route with AI</button></form>
+      <div id="triageResult" class="ai-output muted">AI will suggest the right department, priority and next action.</div>
+    </section>
+
+    {% if current_user.role in ['owner','manager','admin'] %}
+    <section class="ai-card scroll-pop show"><div class="ai-card-head"><div><p class="eyebrow">DEMO TALKING POINTS</p><h3>Why GenAI matters here</h3></div></div><div class="ai-points"><div><b>01</b><span>Natural-language resort concierge for guests and staff.</span></div><div><b>02</b><span>AI summarizes live operations instead of making managers inspect every table.</span></div><div><b>03</b><span>Issue descriptions are classified and routed to the correct operational team.</span></div><div><b>04</b><span>All operational records remain in the ResortOS database.</span></div></div></section>
+    {% endif %}
+  </div>
+</main></div>
+{% endblock %}
+{% block scripts %}<script>initAIPage();</script>{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}{% block title %}{{"Create account" if mode=="register" else ("Customer Login" if login_type=="customer" else "Staff Login")}} — ResortOS{% endblock %}
+{% block body %}
+<div class="auth-page">
+  <div class="auth-visual"><div class="brand light"><span class="brand-mark">✦</span><span>Resort<span>OS</span></span></div><div><p class="eyebrow">{{"GUEST EXPERIENCE" if login_type=="customer" else "RESORT TEAM WORKSPACE"}}</p><h1>{{"Luxury, connected." if login_type=="customer" else "Operations, connected."}}</h1><p>{{"Manage your stay, bookings and resort experiences from one elegant guest workspace." if login_type=="customer" else "One secure workspace for Admin, Owner, Manager, Reception, Worker and Maintenance."}}</p></div></div>
+  <div class="auth-panel"><a class="back" href="/login">← Choose login type</a><div class="auth-box">
+    <div class="brand"><span class="brand-mark">✦</span><span>Resort<span>OS</span></span></div>
+    <div class="auth-heading"><span class="auth-kicker">{{"CUSTOMER ACCESS" if login_type=="customer" else "STAFF ACCESS"}}</span><h2>{{"Create your account" if mode=="register" else ("Welcome back" if login_type=="customer" else "Sign in to your workspace")}}</h2><p class="muted">{{"Register as a customer to manage bookings." if mode=="register" else ("Your guest account keeps your stay details in one place." if login_type=="customer" else "Select your resort role before signing in.")}}</p></div>
+    {% with messages=get_flashed_messages(with_categories=true) %}{% for cat,msg in messages %}<div class="alert {{cat}}">{{msg}}</div>{% endfor %}{% endwith %}
+    <form method="post">
+      {% if mode=="register" %}<label>Full name<input name="name" required placeholder="Your name"></label>{% endif %}
+      {% if login_type=="staff" and mode=="login" %}<label>Resort role<select name="role" class="modern-select">{% for key,label in staff_roles.items() %}<option value="{{key}}" {% if key==selected_role %}selected{% endif %}>{{label}}</option>{% endfor %}</select></label>{% endif %}
+      <label>Email<input name="email" type="email" required placeholder="you@example.com"></label>
+      <label>Password<input name="password" type="password" required placeholder="Enter your password"></label>
+      {% if mode=="login" %}<div class="form-row"><label class="check"><input type="checkbox"> Remember me</label><a href="#">Forgot password?</a></div>{% endif %}
+      <button class="btn primary wide auth-submit" type="submit">{{"Create Account" if mode=="register" else "Login"}}</button>
+    </form>
+    {% if mode=="login" and login_type=="customer" %}<div class="divider"><span>or</span></div><button class="social">Continue with Google</button>{% endif %}
+    <p class="auth-switch">{{"Already have an account?" if mode=="register" else "Need a different login?"}} <a href="{{'/login/customer' if mode=='register' else '/login'}}">{{"Login" if mode=="register" else "Choose another"}}</a></p>
+    {% if mode=="register" %}<p class="auth-switch">Resort employee? <a href="/login/staff">Use Staff Login</a></p>{% endif %}
+    {% if mode=="login" %}<div class="demo-note">{% if login_type=="staff" %}<b>Staff demo access</b><span>Role selection is required</span><span>All demo passwords: <strong>password123</strong></span>{% else %}<b>Customer demo</b><span>customer@resortos.local · password123</span></div>{% endif %}</div>{% endif %}
+  </div></div>
+</div>
+{% endblock %}
