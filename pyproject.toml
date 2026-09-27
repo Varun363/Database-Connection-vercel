@@ -1,1 +1,19 @@
+[project]
+name = "resort-os"
+version = "0.1.0"
+requires-python = ">=3.12"
 
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "sqlalchemy",
+    "psycopg2-binary",
+    "python-dotenv",
+    "bcrypt",
+    "PyJWT",
+    "pydantic[email]",
+    "vercel"
+]
+
+[tool.vercel]
+entrypoint = "backend.main:app"
